@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html lang="pt_BR">
+<head>
+    <meta charset="UTF-8">
+    <!--<meta http-equiv="Content-Security-Policy" content="default-src 'self' data: https://ssl.gstatic.com 'unsafe-eval'; style-src 'self' 'unsafe-inline'; media-src *; img-src 'self' data: content:;">-->
+        <meta name="format-detection" content="telephone=no">
+        <meta name="msapplication-tap-highlight" content="no">
+        <meta name="viewport" content="initial-scale=1, width=device-width, viewport-fit=cover">
+        <link rel="stylesheet" href="css/index.css">
+        <title>Cadastro de Estudante</title>
+</head>
+<body>
+<h1>Cadastro de Estudante</h1>
+    <form id="form-login">
+        <input class="login" type="text" name="matricula" placeholder="matricula" size="40">
+        <input class="login" type="text" name="nome" placeholder="nome" size="40">
+        <input class="login" type="email" name="email" placeholder="email" size="40">
+        <input class="login" type="password" name="senha" placeholder="senha" size="40">
+        <button class="login" type="submit">Enviar</button>
+    </form>
+    <script>
+        const formulario = document.getElementById('form-login')
+        
+        formulario.addEventListener('submit', evento => {
+            evento.preventDefault();
+                    
+            /*O FormData é uma interface fornecida pelo JavaScript que permite a criação
+            * e manipulação de objetos que representam dados de formulários HTML. Com o FormData, 
+            * é possível coletar os valores dos campos de um formulário e enviá-los para o servidor
+            * de forma fácil e eficiente. */
+            const formData = new FormData(formulario);
+
+            // O método 'Object.fromEntries' transforma uma lista de pares chave-valor (json) em um objeto.
+            const data = Object.fromEntries(formData);
+            
+            // Define o endpoint da API
+            //fetch('https://reqres.in/api/users', {
+            fetch('http://localhost:8080/estudantes', {
+                method: 'POST',
+                headers: {
+                    'Content-Type':'application/json',
+                },
+                // O método JSON.stringify() converte um objeto JavaScript em uma String JSON (serialização)
+                body: JSON.stringify(data)
+            })
+            .then(response => response.json()) // Analisa a resposta json em objeto JavaScript nativo
+            .then(data => console.log(data)) // Exibe no console (F12) do modo desenvolvedor o resultado
+        })
+    </script>
+</body>
+</html>
