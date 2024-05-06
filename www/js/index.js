@@ -27,3 +27,43 @@ function onDeviceReady() {
     console.log('Running cordova-' + cordova.platformId + '@' + cordova.version);
     document.getElementById('deviceready').classList.add('ready');
 }
+
+// Pesquisa CEP
+
+function consultaCep(valor) {
+    const cep = valor
+    console.log(cep);
+    
+    fetch('https://viacep.com.br/ws/'+cep+'/json/')
+    .then(response => response.json())
+    .then(data => console.log(data))
+    }
+
+
+    const cep = document.querySelector("#cep")
+    const showData = result => {
+    for(const campo in result){
+        if(document.querySelector("#"+campo)){
+            document.querySelector("#"+campo).value = result[campo]
+        }
+    }
+}
+
+
+
+
+cep.addEventListener("blur",(e)=>{
+    let search = cep.value.replace("-","") // o método replace procura por um "-" e substitui por ""
+    // Como vai acessar domínios diferentes é importante declar o cors
+    const options = {
+        method: 'GET',
+        mode: 'cors',
+        cache: 'default'
+    }
+
+    fetch(`https://viacep.com.br/ws/${search}/json/`, options) // template string: uso da crase para permitir a utilização de variáveis numa sequência de caracteres
+    .then(response => {response.json()
+    .then(data => showData(data))
+    })
+    .catch(e => console.log('Deu Erro: '+ e,message))
+})

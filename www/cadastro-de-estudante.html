@@ -7,19 +7,23 @@
         <meta name="msapplication-tap-highlight" content="no">
         <meta name="viewport" content="initial-scale=1, width=device-width, viewport-fit=cover">
         <link rel="stylesheet" href="css/index.css">
+        
         <title>Cadastro de Estudante</title>
 </head>
 <body>
 <h1>Cadastro de Estudante</h1>
-    <form id="form-login">
+    <form id="form-estudante">
         <input class="login" type="text" name="matricula" placeholder="matricula" size="40">
         <input class="login" type="text" name="nome" placeholder="nome" size="40">
         <input class="login" type="email" name="email" placeholder="email" size="40">
         <input class="login" type="password" name="senha" placeholder="senha" size="40">
+        <input class="login" type="text" name="cep" id="cep" placeholder="cep" size="40" onblur="">
+        <input class="login" type="text" name="bairro" id="bairro" placeholder="bairro" size="40">
         <button class="login" type="submit">Enviar</button>
     </form>
+    <script type="text/javascript" src="js/index.js"></script>
     <script>
-        const formulario = document.getElementById('form-login')
+        const formulario = document.getElementById('form-estudante')
         
         formulario.addEventListener('submit', evento => {
             evento.preventDefault();
