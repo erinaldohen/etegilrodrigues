@@ -34,7 +34,13 @@ function consultaCep(valor) {
     const cep = valor
     console.log(cep);
     
-    fetch('https://viacep.com.br/ws/'+cep+'/json/')
+    const options = {
+        method: 'GET',
+        mode: 'cors',
+        cache: 'default'
+    }
+
+    fetch('https://viacep.com.br/ws/'+cep+'/json/', options)
     .then(response => response.json())
     .then(data => console.log(data))
     }
@@ -48,9 +54,6 @@ function consultaCep(valor) {
         }
     }
 }
-
-
-
 
 cep.addEventListener("blur",(e)=>{
     let search = cep.value.replace("-","") // o método replace procura por um "-" e substitui por ""

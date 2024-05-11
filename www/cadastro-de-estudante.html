@@ -13,13 +13,53 @@
 <body>
 <h1>Cadastro de Estudante</h1>
     <form id="form-estudante">
-        <input class="login" type="text" name="matricula" placeholder="matricula" size="40">
-        <input class="login" type="text" name="nome" placeholder="nome" size="40">
-        <input class="login" type="email" name="email" placeholder="email" size="40">
-        <input class="login" type="password" name="senha" placeholder="senha" size="40">
-        <input class="login" type="text" name="cep" id="cep" placeholder="cep" size="40" onblur="">
-        <input class="login" type="text" name="bairro" id="bairro" placeholder="bairro" size="40">
-        <button class="login" type="submit">Enviar</button>
+        <fieldset>
+            <legend>Dados Pessoais</legend>
+            <input class="input-form" type="text" name="matricula" placeholder="matricula" size="40">
+            <input class="input-form" type="text" name="nome" placeholder="nome" size="40">
+            <input class="input-form" type="email" name="email" placeholder="e-mail" size="40">
+            <input class="input-form" type="password" name="senha" placeholder="senha" size="40">
+        </fieldset>
+    <fieldset>
+        <legend>Dados de Endereço</legend>
+        <input class="input-form" type="text" name="cep" id="cep" placeholder="cep" size="40" onblur="consultaCep(this.value)">
+        <input class="input-form" type="text" name="logradouro" id="logradouro" placeholder="logradouro" size="40">
+        <input class="input-form" type="text" name="numero" id="numero" placeholder="numero" size="40">
+        <input class="input-form" type="text" name="complemento" id="complemento" placeholder="complemento" size="40">
+        <input class="input-form" type="text" name="bairro" id="bairro" placeholder="bairro" size="40">
+        <input class="input-form" type="text" name="localidade" id="localidade" placeholder="cidade" size="40">
+        <select class="input-form" id="uf" name="uf">
+            <option value="">UF</option>
+            <option value="AC">Acre</option>
+            <option value="AL">Alagoas</option>
+            <option value="AP">Amapá</option>
+            <option value="AM">Amazonas</option>
+            <option value="BA">Bahia</option>
+            <option value="CE">Ceará</option>
+            <option value="DF">Distrito Federal</option>
+            <option value="ES">Espirito Santo</option>
+            <option value="GO">Goiás</option>
+            <option value="MA">Maranhão</option>
+            <option value="MS">Mato Grosso do Sul</option>
+            <option value="MT">Mato Grosso</option>
+            <option value="MG">Minas Gerais</option>
+            <option value="PA">Pará</option>
+            <option value="PB">Paraíba</option>
+            <option value="PR">Paraná</option>
+            <option value="PE">Pernambuco</option>
+            <option value="PI">Piauí</option>
+            <option value="RJ">Rio de Janeiro</option>
+            <option value="RN">Rio Grande do Norte</option>
+            <option value="RS">Rio Grande do Sul</option>
+            <option value="RO">Rondônia</option>
+            <option value="RR">Roraima</option>
+            <option value="SC">Santa Catarina</option>
+            <option value="SP">São Paulo</option>
+            <option value="SE">Sergipe</option>
+            <option value="TO">Tocantins</option>
+        </select>
+    </fieldset>
+        <button class="input-form" type="submit">Enviar</button>
     </form>
     <script type="text/javascript" src="js/index.js"></script>
     <script>
@@ -36,19 +76,34 @@
 
             // O método 'Object.fromEntries' transforma uma lista de pares chave-valor (json) em um objeto.
             const data = Object.fromEntries(formData);
-            
+            console.log(data)
+            const nome = data.nome
+            console.log(nome)
+
+            const dadosEstudante = [
+            ["matricula", data.matricula],
+            ["nome", data.nome],
+            ["email", data.email],
+            ["senha", data.senha],
+            ];
+            const obj = Object.fromEntries(dadosEstudante);
+            console.log(obj); 
+
             // Define o endpoint da API
-            //fetch('https://reqres.in/api/users', {
-            fetch('http://localhost:8080/estudantes', {
-                method: 'POST',
-                headers: {
+            let requestOptions = {
+            method: 'POST',
+            headers: {
                     'Content-Type':'application/json',
                 },
-                // O método JSON.stringify() converte um objeto JavaScript em uma String JSON (serialização)
-                body: JSON.stringify(data)
-            })
-            .then(response => response.json()) // Analisa a resposta json em objeto JavaScript nativo
-            .then(data => console.log(data)) // Exibe no console (F12) do modo desenvolvedor o resultado
+            body: JSON.stringify(obj),
+            redirect: 'follow'
+            };
+
+            fetch("http://localhost:8080/estudantes", requestOptions)
+            .then(response => response.text()) // Analisa a resposta json em objeto JavaScript nativo
+            .then(result => console.log(result)) // Exibe no console (F12) do modo desenvolvedor o resultado
+            .catch(error => console.log('error', error));
+            
         })
     </script>
 </body>
